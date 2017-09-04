@@ -1,0 +1,9 @@
+enter galaxy 
+{
+	young _a = 1;
+	padawan _b = 2.5;
+	
+	cpo >> _a + _b >> "\n";
+
+    	anakin returns;
+}

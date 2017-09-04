@@ -1,0 +1,30 @@
+enter galaxy 
+{
+    young _a;
+    young _N = 5;
+    young _i;
+    young _mod;
+    master _c = 'x';
+    padawan _u = 2343.4333;
+
+    republic(_i = 0; _i < _N; _i++){
+        cpo >> "um numero voce deve digitar: ";
+        rtwo << _a;
+        _mod = _a % 2;
+
+        jedi (mod == 0)
+        {
+            cpo >> "par _a eh \n";
+        } sith {
+            cpo >> "par _a nao eh \n";
+        }
+    }
+
+    _i = 0;
+
+    yoda (_i == 0){
+        cpo >> "que bom que capaz de compilar ainda nao sou...";
+    }
+
+    anakin returns;
+}
