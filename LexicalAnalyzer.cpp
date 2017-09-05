@@ -33,27 +33,40 @@ bool is_keyword(string lexeme)
 		lexeme == s ? found = true : found = false;
 		if (found)
 		{
-			if (lexeme == "red")
-			{
-				token.push_back({ lexeme, "op_logico", "red" });
-				found = false;
-			} else if (lexeme == "green")
-			{
-				token.push_back({ lexeme, "op_logico", "green" });
-				found = false;
-			} else if (lexeme == "violet")
-			{
-				token.push_back({ lexeme, "op_logico", "violet" });
-				found = false;
-			} else if (lexeme == "blue")
-			{
-				token.push_back({ lexeme, "op_logico", "blue" });
-				found = false;
-			}
+			found = !is_logical_operator(lexeme);
 			break;
+			/* 
+				found recebe !is_logical_operator() pra não duplicar saida, porque red, blue, green e violet são palavras reservadas,
+				porém também são operadores lógicos. Se is_logical_operator() retornar true, então o token é um	operador lógico e deve ser apresentado como tal 
+			*/
 		}
 	}
 	return found;
+}
+
+bool is_logical_operator(string lexeme)
+{
+	if (lexeme == "red")
+	{
+		token.push_back({ lexeme, "op_logico", "red" });
+		return true;
+	}
+	if (lexeme == "green")
+	{
+		token.push_back({ lexeme, "op_logico", "green" });
+		return true;
+	}
+	if (lexeme == "violet")
+	{
+		token.push_back({ lexeme, "op_logico", "violet" });
+		return true;
+	}
+	if (lexeme == "blue")
+	{
+		token.push_back({ lexeme, "op_logico", "blue" });
+		return true;
+	}
+	return false;
 }
 
 void get_tokens(ifstream& tlc_code)
@@ -316,15 +329,15 @@ int main(int argc, char* argv[])
 
 	string in = argv[1];
 
-	#ifdef _WIN32
-	string out = "lexico\\token_";
+#ifdef _WIN32
+	string out = "saida_lexico\\token_";
 	out += in.substr(in.find("\\") + 1);
-	#endif
+#endif
 
-	#ifdef __unix__
-	string out = "lexico/token_";
+#ifdef __unix__
+	string out = "saida_lexico/token_";
 	out += in.substr(in.find("/") + 1);
-	#endif
+#endif
 
 	ifstream tlc_code(in);
 	ofstream table_of_tokens(out);

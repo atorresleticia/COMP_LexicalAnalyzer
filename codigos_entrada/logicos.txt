@@ -1,0 +1,17 @@
+enter galaxy 
+{
+	young _a = 1;
+	young _b = 0;
+	
+	jedi (_a red _b)
+	{
+		cpo >> _a red _b >> "\n";
+	} sith {	
+		jedi (_a green _b)
+		{
+			cpo >> _a green _b >> "\n";
+		}
+	}
+
+    	anakin returns;
+}

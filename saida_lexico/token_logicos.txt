@@ -1,0 +1,51 @@
+TOKEN                    CLASSE                   VALOR                    
+
+enter                    p_res                                             
+galaxy                   p_res                                             
+{                        delimitador              abre_chaves              
+young                    p_res                                             
+_a                       id                                                
+=                        atribuicao                                        
+1                        num, young               1                        
+;                        delimitador              fim_de_comando           
+young                    p_res                                             
+_b                       id                                                
+=                        atribuicao                                        
+0                        num, young               0                        
+;                        delimitador              fim_de_comando           
+jedi                     p_res                                             
+(                        delimitador              abre_par                 
+_a                       id                                                
+red                      op_logico                red                      
+_b                       id                                                
+)                        delimitador              fecha_par                
+{                        delimitador              abre_chaves              
+cpo                      p_res                                             
+>>                       operador de saida                                 
+_a                       id                                                
+red                      op_logico                red                      
+_b                       id                                                
+>>                       operador de saida                                 
+;                        delimitador              fim_de_comando           
+}                        delimitador              fecha_chaves             
+sith                     p_res                                             
+{                        delimitador              abre_chaves              
+jedi                     p_res                                             
+(                        delimitador              abre_par                 
+_a                       id                                                
+green                    op_logico                green                    
+_b                       id                                                
+)                        delimitador              fecha_par                
+{                        delimitador              abre_chaves              
+cpo                      p_res                                             
+>>                       operador de saida                                 
+_a                       id                                                
+green                    op_logico                green                    
+_b                       id                                                
+>>                       operador de saida                                 
+;                        delimitador              fim_de_comando           
+}                        delimitador              fecha_chaves             
+}                        delimitador              fecha_chaves             
+anakin                   p_res                                             
+;                        delimitador              fim_de_comando           
+}                        delimitador              fecha_chaves             
