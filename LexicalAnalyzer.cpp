@@ -11,10 +11,9 @@
 
 using namespace std;
 
-string keywords[22] = { "young", "master", "padawan",
+string keywords[18] = { "young", "master", "padawan",
 						"jedi", "sith",
 						"republic", "yoda",
-						"red", "blue", "green", "violet",
 						"vader", "const", "stormtrooper", "anakin", "default",
 						"sizeof", "wookie", "enter", "galaxy", "cpo", "rtwo" };
 
@@ -24,6 +23,11 @@ regex padawan("[0-9]+[.][0-9]+");
 regex reserved("[a-z]+");
 
 vector<tokens> token;
+int line_count = 0;
+
+bool is_logical_operator(string lexeme);
+bool is_keyword(string lexeme);
+void get_tokens(ifstream& tlc_code);
 
 bool is_keyword(string lexeme)
 {
@@ -32,14 +36,7 @@ bool is_keyword(string lexeme)
 	{
 		lexeme == s ? found = true : found = false;
 		if (found)
-		{
-			found = !is_logical_operator(lexeme);
-			break;
-			/* 
-				found recebe !is_logical_operator() pra não duplicar saida, porque red, blue, green e violet são palavras reservadas,
-				porém também são operadores lógicos. Se is_logical_operator() retornar true, então o token é um	operador lógico e deve ser apresentado como tal 
-			*/
-		}
+			break;	
 	}
 	return found;
 }
@@ -48,22 +45,22 @@ bool is_logical_operator(string lexeme)
 {
 	if (lexeme == "red")
 	{
-		token.push_back({ lexeme, "op_logico", "red" });
+		token.push_back({ lexeme, "op_logico", "red", line_count });
 		return true;
 	}
 	if (lexeme == "green")
 	{
-		token.push_back({ lexeme, "op_logico", "green" });
+		token.push_back({ lexeme, "op_logico", "green", line_count });
 		return true;
 	}
 	if (lexeme == "violet")
 	{
-		token.push_back({ lexeme, "op_logico", "violet" });
+		token.push_back({ lexeme, "op_logico", "violet", line_count });
 		return true;
 	}
 	if (lexeme == "blue")
 	{
-		token.push_back({ lexeme, "op_logico", "blue" });
+		token.push_back({ lexeme, "op_logico", "blue", line_count });
 		return true;
 	}
 	return false;
@@ -73,9 +70,8 @@ void get_tokens(ifstream& tlc_code)
 {
 	char reader;
 	string lexeme;
-	string comment_reader;
 
-	while (tlc_code >> noskipws >> reader) // noskipws � pra ler qualquer caractere, incluse espa�o, porque o "file >>" ignora espa�os
+	while (tlc_code >> noskipws >> reader)
 	{
 		if (isalpha(reader))
 		{
@@ -87,9 +83,17 @@ void get_tokens(ifstream& tlc_code)
 			} while (regex_match(lexeme, reserved));
 			lexeme.pop_back();
 			tlc_code.unget();
-			if (is_keyword(lexeme))
+			
+			if (is_logical_operator(lexeme) ==  false)
 			{
-				token.push_back({ lexeme, "p_res" });
+				if (is_keyword(lexeme))
+				{
+					token.push_back({ lexeme, "p_res", line_count });
+				}
+				else 
+				{
+					cout << line_count << ": \"" << lexeme << "\" nao reconhecido." << endl;
+				}
 			}
 		}
 		else if (isdigit(reader))
@@ -119,12 +123,18 @@ void get_tokens(ifstream& tlc_code)
 			}
 			lexeme.pop_back();
 			tlc_code.unget();
-			is_young ? token.push_back({ lexeme, "num, young", lexeme }) : token.push_back({ lexeme, "num, padawan", lexeme });
+			is_young ? token.push_back({ lexeme, "num, young", lexeme, line_count }) : token.push_back({ lexeme, "num, padawan", lexeme, line_count });
 		}
 		else
 		{
+			int line_init;
+			string comment_reader;
+			
 			switch (reader)
 			{
+			case '\n':
+				line_count++;
+				break;
 			case '_':
 				lexeme = reader;
 				do
@@ -136,13 +146,13 @@ void get_tokens(ifstream& tlc_code)
 				tlc_code.unget();
 				lexeme.pop_back();
 
-				token.push_back({ lexeme, "id" });
+				token.push_back({ lexeme, "id", line_count });
 
 				break;
 
 			case '%':
 				lexeme = reader;
-				token.push_back({ lexeme, "op_arit", "mod" });
+				token.push_back({ lexeme, "op_arit", "mod", line_count });
 				break;
 
 			case '+':
@@ -152,23 +162,23 @@ void get_tokens(ifstream& tlc_code)
 				if (reader == '+')
 				{
 					lexeme += reader;
-					token.push_back({ lexeme, "inc" });
+					token.push_back({ lexeme, "inc", line_count });
 				}
 				else
 				{
-					token.push_back({ lexeme, "op_arit", "soma" });
+					token.push_back({ lexeme, "op_arit", "soma", line_count });
 					tlc_code.unget();
 				}
 				break;
 
 			case '-':
 				lexeme = reader;
-				token.push_back({ lexeme, "op_arit", "sub" });
+				token.push_back({ lexeme, "op_arit", "sub", line_count });
 				break;
 
 			case '*':
 				lexeme = reader;
-				token.push_back({ lexeme, "op_arit", "mul" });
+				token.push_back({ lexeme, "op_arit", "mul", line_count });
 				break;
 
 			case '/':
@@ -179,11 +189,12 @@ void get_tokens(ifstream& tlc_code)
 				{
 					lexeme += reader;
 					getline(tlc_code, comment_reader);
-					token.push_back({ lexeme, "coment" });
+					token.push_back({ lexeme, "coment", line_count });
+					line_count++;
 				}
 				else
 				{
-					token.push_back({ lexeme, "op_arit", "div" });
+					token.push_back({ lexeme, "op_arit", "div", line_count });
 					tlc_code.unget();
 				}
 				break;
@@ -195,7 +206,7 @@ void get_tokens(ifstream& tlc_code)
 				if (reader == '=')
 				{
 					lexeme += reader;
-					token.push_back({ lexeme, "op_rel", "igual" });
+					token.push_back({ lexeme, "op_rel", "igual", line_count });
 				}
 				else if (reader == '/')
 				{
@@ -204,19 +215,19 @@ void get_tokens(ifstream& tlc_code)
 					if (reader == '=')
 					{
 						lexeme += reader;
-						token.push_back({ lexeme, "op_rel", "diferenca" });
+						token.push_back({ lexeme, "op_rel", "diferenca", line_count });
 					} else
 					{
 						tlc_code.unget();
 						tlc_code.unget();
 						lexeme.pop_back();
-						token.push_back({ lexeme, "atribuicao" });
+						token.push_back({ lexeme, "atribuicao", line_count });
 					}
 				}
 				else
 				{
 					tlc_code.unget();
-					token.push_back({ lexeme, "atribuicao" });
+					token.push_back({ lexeme, "atribuicao", line_count });
 				}
 
 				break;
@@ -229,15 +240,15 @@ void get_tokens(ifstream& tlc_code)
 				{
 				case '=':
 					lexeme += reader;
-					token.push_back({ lexeme, "op_rel", "menor_igual" });
+					token.push_back({ lexeme, "op_rel", "menor_igual", line_count });
 					break;
 				case '<':
 					lexeme += reader;
-					token.push_back({ lexeme, "operador de entrada" });
+					token.push_back({ lexeme, "operador de entrada", line_count });
 					break;
 				default:
 					tlc_code.unget();
-					token.push_back({ lexeme, "op_rel", "menor" });
+					token.push_back({ lexeme, "op_rel", "menor", line_count });
 					break;
 				}
 				break;
@@ -250,38 +261,38 @@ void get_tokens(ifstream& tlc_code)
 				{
 				case '=':
 					lexeme += reader;
-					token.push_back({ lexeme, "op_rel", "maior_igual" });
+					token.push_back({ lexeme, "op_rel", "maior_igual", line_count });
 					break;
 				case '>':
 					lexeme += reader;
-					token.push_back({ lexeme, "operador de saida" });
+					token.push_back({ lexeme, "operador de saida", line_count });
 					break;
 				default:
 					tlc_code.unget();
-					token.push_back({ lexeme, "op_rel", "maior" });
+					token.push_back({ lexeme, "op_rel", "maior", line_count });
 					break;
 				}
 				break;
 
 			case '{':
 				lexeme = reader;
-				token.push_back({ lexeme, "delimitador", "abre_chaves" });
+				token.push_back({ lexeme, "delimitador", "abre_chaves", line_count });
 				break;
 			case '}':
 				lexeme = reader;
-				token.push_back({ lexeme, "delimitador", "fecha_chaves" });
+				token.push_back({ lexeme, "delimitador", "fecha_chaves", line_count });
 				break;
 			case '(':
 				lexeme = reader;
-				token.push_back({ lexeme, "delimitador", "abre_par" });
+				token.push_back({ lexeme, "delimitador", "abre_par", line_count });
 				break;
 			case ')':
 				lexeme = reader;
-				token.push_back({ lexeme, "delimitador", "fecha_par" });
+				token.push_back({ lexeme, "delimitador", "fecha_par", line_count });
 				break;
 			case ';':
 				lexeme = reader;
-				token.push_back({ lexeme, "delimitador", "fim_de_comando" });
+				token.push_back({ lexeme, "delimitador", "fim_de_comando", line_count });
 				break;
 			case '\'':
 				lexeme = reader;
@@ -294,7 +305,7 @@ void get_tokens(ifstream& tlc_code)
 					tlc_code >> noskipws >> reader;
 					if (reader == '\'')
 					{
-						token.push_back({ c, "master", c });
+						token.push_back({ c, "master", c, line_count });
 						tlc_code.unget();
 					} else
 					{
@@ -307,11 +318,30 @@ void get_tokens(ifstream& tlc_code)
 				}
 				break;
 			case '\"':
+				line_init = line_count;
+				lexeme = reader;
 				do
 				{
 					tlc_code >> noskipws >> reader;
-				} while (reader != '\"');
+					lexeme += reader;
+					if (reader == '\n') { line_count++; }
+				} while(reader != '\"' && !tlc_code.eof());
+
+				lexeme.pop_back();
+				lexeme.pop_back();
+
+				if (tlc_code.eof())
+				{
+					cout << line_init << ": string " << lexeme << endl << "incompleta, está faltando um \" ." << endl;
+				} else {
+					token.push_back( {lexeme, "string", line_init } );
+				}
+				break;
 			default:
+				if (reader != ' ' && reader != '\t')
+				{
+					cout << line_count << ": caractere \'" << reader << "\' nao reconhecido." << endl;
+				}
 				break;
 			}
 		}
@@ -346,10 +376,10 @@ int main(int argc, char* argv[])
 
 	get_tokens(tlc_code);
 
-	table_of_tokens << setw(W_TEXT_ALIGN) << left << "TOKEN" << setw(W_TEXT_ALIGN) << left << "CLASSE" << setw(W_TEXT_ALIGN) << left << "VALOR" << endl << endl;
+	table_of_tokens << setw(W_TEXT_ALIGN) << left << "LINE" << setw(10) << left << "TOKEN" << setw(W_TEXT_ALIGN) << left << "CLASSE" << setw(W_TEXT_ALIGN) << left << "VALOR" << endl << endl;
 	for (vector<tokens>::iterator it = token.begin(); it < token.end(); ++it)
 	{
-		table_of_tokens << setw(W_TEXT_ALIGN) << left << it->token << setw(W_TEXT_ALIGN) << left << it->t_class << setw(W_TEXT_ALIGN) << left << it->t_value << endl;
+		table_of_tokens << setw(W_TEXT_ALIGN) << left << it->t_line << setw(10) << left << it->token << setw(W_TEXT_ALIGN) << left << it->t_class << setw(W_TEXT_ALIGN) << left << it->t_value << endl;
 	}
 
 	table_of_tokens.close();
