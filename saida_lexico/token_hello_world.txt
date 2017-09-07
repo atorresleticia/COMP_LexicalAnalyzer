@@ -1,0 +1,96 @@
+LINE                     TOKEN     CLASSE                   VALOR                    
+
+1                        enter     p_res                                             
+1                        galaxy    p_res                                             
+2                        {         delimitador              abre_chaves              
+3                        young     p_res                                             
+3                        _a        id                                                
+3                        ;         delimitador              fim_de_comando           
+4                        young     p_res                                             
+4                        _N        id                                                
+4                        =         atribuicao                                        
+4                        5         num, young               5                        
+4                        ;         delimitador              fim_de_comando           
+5                        young     p_res                                             
+5                        _i        id                                                
+5                        ;         delimitador              fim_de_comando           
+6                        young     p_res                                             
+6                        _mod      id                                                
+6                        ;         delimitador              fim_de_comando           
+7                        master    p_res                                             
+7                        _c        id                                                
+7                        =         atribuicao                                        
+7                        '$'       master                   $                        
+7                        ;         delimitador              fim_de_comando           
+8                        padawan   p_res                                             
+8                        _u        id                                                
+8                        =         atribuicao                                        
+8                        2343.4333 num, padawan             2343.4333                
+8                        ;         delimitador              fim_de_comando           
+10                       republic  p_res                                             
+10                       (         delimitador              abre_par                 
+10                       _i        id                                                
+10                       =         atribuicao                                        
+10                       0         num, young               0                        
+10                       ;         delimitador              fim_de_comando           
+10                       _i        id                                                
+10                       <         op_rel                   menor                    
+10                       _N        id                                                
+10                       ;         delimitador              fim_de_comando           
+10                       _i        id                                                
+10                       ++        inc                                               
+10                       )         delimitador              fecha_par                
+10                       {         delimitador              abre_chaves              
+11                       cpo       p_res                                             
+11                       >>        operador de saida                                 
+11                       "um numero voce deve digitar: "string                                            
+11                       ;         delimitador              fim_de_comando           
+12                       rtwo      p_res                                             
+12                       <<        operador de entrada                               
+12                       _a        id                                                
+12                       ;         delimitador              fim_de_comando           
+13                       _mod      id                                                
+13                       =         atribuicao                                        
+13                       _a        id                                                
+13                       %         op_arit                  mod                      
+13                       2         num, young               2                        
+13                       ;         delimitador              fim_de_comando           
+15                       jedi      p_res                                             
+15                       (         delimitador              abre_par                 
+15                       _mod      id                                                
+15                       ==        op_rel                   igual                    
+15                       0         num, young               0                        
+15                       )         delimitador              fecha_par                
+16                       {         delimitador              abre_chaves              
+17                       cpo       p_res                                             
+17                       >>        operador de saida                                 
+17                       "par _a eh \n"string                                            
+17                       ;         delimitador              fim_de_comando           
+18                       }         delimitador              fecha_chaves             
+18                       sith      p_res                                             
+18                       {         delimitador              abre_chaves              
+19                       cpo       p_res                                             
+19                       >>        operador de saida                                 
+19                       "par _a nao eh \n"string                                            
+19                       ;         delimitador              fim_de_comando           
+20                       }         delimitador              fecha_chaves             
+21                       }         delimitador              fecha_chaves             
+23                       _i        id                                                
+23                       =         atribuicao                                        
+23                       0         num, young               0                        
+23                       ;         delimitador              fim_de_comando           
+25                       yoda      p_res                                             
+25                       (         delimitador              abre_par                 
+25                       _i        id                                                
+25                       ==        op_rel                   igual                    
+25                       0         num, young               0                        
+25                       )         delimitador              fecha_par                
+25                       {         delimitador              abre_chaves              
+26                       cpo       p_res                                             
+26                       >>        operador de saida                                 
+26                       "que bom que capaz de compilar ainda nao sou..."string                                            
+26                       ;         delimitador              fim_de_comando           
+27                       }         delimitador              fecha_chaves             
+29                       anakin    p_res                                             
+29                       ;         delimitador              fim_de_comando           
+30                       }         delimitador              fecha_chaves             

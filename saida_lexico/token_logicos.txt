@@ -1,55 +1,31 @@
 LINE                     TOKEN     CLASSE                   VALOR                    
 
-0                        enter     p_res                                             
-0                        galaxy    p_res                                             
-1                        {         delimitador              abre_chaves              
-2                        young     p_res                                             
-2                        _a        id                                                
-2                        =         atribuicao                                        
-2                        1         num, young               1                        
-2                        ;         delimitador              fim_de_comando           
+1                        enter     p_res                                             
+1                        galaxy    p_res                                             
+2                        {         delimitador              abre_chaves              
 3                        young     p_res                                             
-3                        _b        id                                                
+3                        _a        id                                                
 3                        =         atribuicao                                        
-3                        0         num, young               0                        
+3                        1         num, young               1                        
 3                        ;         delimitador              fim_de_comando           
-5                        jedi      p_res                                             
-5                        (         delimitador              abre_par                 
-5                        _a        id                                                
-5                        red       op_logico                red                      
-5                        _b        id                                                
-5                        )         delimitador              fecha_par                
-5                        //        coment                                            
-6                        {         delimitador              abre_chaves              
-7                        >>        operador de saida                                 
-7                        _a        id                                                
-7                        red       op_logico                red                      
-7                        _b        id                                                
-7                        >>        operador de saida                                 
-7                        "\        string                                            
-7                        ;         delimitador              fim_de_comando           
-8                        }         delimitador              fecha_chaves             
-8                        sith      p_res                                             
-8                        {         delimitador              abre_chaves              
-9                        jedi      p_res                                             
-9                        (         delimitador              abre_par                 
-9                        _a        id                                                
-9                        green     op_logico                green                    
-9                        _b        id                                                
-9                        )         delimitador              fecha_par                
-10                       {         delimitador              abre_chaves              
-11                       cpo       p_res                                             
-11                       >>        operador de saida                                 
-11                       _a        id                                                
-11                       green     op_logico                green                    
-11                       _b        id                                                
-11                       >>        operador de saida                                 
-11                       "\        string                                            
-11                       ;         delimitador              fim_de_comando           
-12                       }         delimitador              fecha_chaves             
-13                       ;         delimitador              fim_de_comando           
-14                       }         delimitador              fecha_chaves             
-16                       //        coment                                            
-18                       anakin    p_res                                             
-18                       ;         delimitador              fim_de_comando           
-19                       }         delimitador              fecha_chaves             
+4                        young     p_res                                             
+4                        _b        id                                                
+4                        =         atribuicao                                        
+4                        0         num, young               0                        
+4                        ;         delimitador              fim_de_comando           
+6                        jedi      p_res                                             
+6                        (         delimitador              abre_par                 
+6                        _a        id                                                
+6                        =         atribuicao                                        
+6                        //        coment                                            
+7                        {         delimitador              abre_chaves              
+8                        >>        operador de saida                                 
+8                        _a        id                                                
+8                        red       op_logico                red                      
+8                        _b        id                                                
+8                        >>        operador de saida                                 
+8                        "\n;
+	} sith {	
+		jedi (_a green _b)
+		{
+			cpo >> _a green _b >>string                                            

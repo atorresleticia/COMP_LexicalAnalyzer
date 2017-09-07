@@ -23,7 +23,7 @@ regex padawan("[0-9]+[.][0-9]+");
 regex reserved("[a-z]+");
 
 vector<tokens> token;
-int line_count = 0;
+int line_count = 1;
 
 bool is_logical_operator(string lexeme);
 bool is_keyword(string lexeme);
@@ -127,6 +127,7 @@ void get_tokens(ifstream& tlc_code)
 		}
 		else
 		{
+			int char_counter = 0;
 			int line_init;
 			string comment_reader;
 			
@@ -296,19 +297,20 @@ void get_tokens(ifstream& tlc_code)
 				break;
 			case '\'':
 				lexeme = reader;
-				token.push_back({ lexeme, "delimitador", "aspas_simples" });
 				tlc_code >> noskipws >> reader;
-				if (isalpha(reader))
+				if (reader != '\'')
 				{
 					string c;
 					c = reader;
+					lexeme += reader;
 					tlc_code >> noskipws >> reader;
 					if (reader == '\'')
 					{
-						token.push_back({ c, "master", c, line_count });
-						tlc_code.unget();
+						lexeme += reader;
+						token.push_back({ lexeme, "master", c, line_count });
 					} else
 					{
+						cout << line_count << ": esta faltando um \'. Master corresponde a apenas um caractere." << endl;
 						tlc_code.unget();
 						tlc_code.unget();
 					}
@@ -327,12 +329,9 @@ void get_tokens(ifstream& tlc_code)
 					if (reader == '\n') { line_count++; }
 				} while(reader != '\"' && !tlc_code.eof());
 
-				lexeme.pop_back();
-				lexeme.pop_back();
-
 				if (tlc_code.eof())
 				{
-					cout << line_init << ": string " << lexeme << endl << "incompleta, está faltando um \" ." << endl;
+					cout << line_init << ": string " << lexeme << endl << "incompleta, esta faltando um \" ." << endl;
 				} else {
 					token.push_back( {lexeme, "string", line_init } );
 				}

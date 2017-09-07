@@ -12,7 +12,7 @@ enter galaxy
         rtwo << _a;
         _mod = _a % 2;
 
-        jedi (mod == 0)
+        jedi (_mod == 0)
         {
             cpo >> "par _a eh \n";
         } sith {
