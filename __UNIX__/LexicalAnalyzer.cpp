@@ -360,9 +360,9 @@ int main(int argc, char* argv[])
 
 	string in = argv[1];
 
-	system("cls");
-	string out = "saida_lexico\\token_";
-	out += in.substr(in.find("\\") + 1);
+	system("clear");
+	string out = "saida_lexico/token_";
+	out += in.substr(in.find("/") + 1);
 
 	cout << "\t\t Analisador Lexico \"The Last Code\"" << endl;
 
@@ -385,6 +385,7 @@ int main(int argc, char* argv[])
 	cout << "\nPressione qualquer tecla para abrir o arquivo de tokens..." << endl;
 	cin.ignore();
 
+	out.insert(0, "xdg-open ");
 	system(out.c_str());
 	
 	return 0;
