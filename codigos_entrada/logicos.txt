@@ -3,10 +3,11 @@ enter galaxy
 	young _a = 1;
 	young _b = 0;
 	
-	jedi (_a =//= _b) // oiblabla
+	jedi (_a =//= _b)
 	{
 		cpoo >> _a red _b >> "\n;
-	} sith {	
+	} sith {
+		& // esse simbolo vai dar erro	
 		jedi (_a green _b)
 		{
 			cpo >> _a green _b >> "\n";
@@ -14,7 +15,7 @@ enter galaxy
 		kkk;
 	}
 
-	// odksdpoasdkoksapdoks
+	// sou um comentário
 
     	anakin;
 }

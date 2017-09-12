@@ -1,5 +1,5 @@
 ### 1 COMPILAÇÃO
-Para compilar o analisador léxico execute o comando "make" no cmd/terminal.
+Para compilar o analisador léxico execute o comando "make" no cmd.
 
 Caso o make não funcione, a compilação deve ser -> g++ -std=c++11 LexicalAnalyzer.cpp -o <executavel>
 

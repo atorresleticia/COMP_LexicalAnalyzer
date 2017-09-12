@@ -7,9 +7,8 @@ struct tokens
 	std::string token;
 	std::string t_class;
 	std::string t_value = {""};
-	int t_line = -1;
+	int t_line = 0;
 
-	// construtor
 	tokens(const std::string& token, const std::string& t_class, const std::string& t_value)
 		: token(token),
 		  t_class(t_class),
