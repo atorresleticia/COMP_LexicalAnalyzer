@@ -6,6 +6,7 @@
 #include <vector>
 #include <cctype>
 #include <iomanip>
+#include <cstdlib>
 
 #define W_TEXT_ALIGN 25
 
@@ -190,7 +191,7 @@ void get_tokens(ifstream& tlc_code)
 				{
 					lexeme += reader;
 					getline(tlc_code, comment_reader);
-					token.push_back({ lexeme, "coment", line_count });
+					token.push_back({ lexeme, "comentario", line_count });
 					line_count++;
 				}
 				else
@@ -316,7 +317,8 @@ void get_tokens(ifstream& tlc_code)
 					}
 				} else
 				{
-					tlc_code.unget();
+					lexeme += reader;
+					token.push_back({ lexeme, "master", "master vazio", line_count });
 				}
 				break;
 			case '\"':
@@ -375,14 +377,20 @@ int main(int argc, char* argv[])
 
 	get_tokens(tlc_code);
 
-	table_of_tokens << setw(W_TEXT_ALIGN) << left << "LINE" << setw(10) << left << "TOKEN" << setw(W_TEXT_ALIGN) << left << "CLASSE" << setw(W_TEXT_ALIGN) << left << "VALOR" << endl << endl;
+	table_of_tokens << "#L" << "\t" << setw(W_TEXT_ALIGN) << left << "TOKEN" << setw(W_TEXT_ALIGN) << left << "CLASSE" << setw(W_TEXT_ALIGN) << left << "VALOR" << endl << endl;
 	for (vector<tokens>::iterator it = token.begin(); it < token.end(); ++it)
 	{
-		table_of_tokens << setw(W_TEXT_ALIGN) << left << it->t_line << setw(10) << left << it->token << setw(W_TEXT_ALIGN) << left << it->t_class << setw(W_TEXT_ALIGN) << left << it->t_value << endl;
+		table_of_tokens << it->t_line << "\t" << setw(W_TEXT_ALIGN) << left << it->token << setw(W_TEXT_ALIGN) << left << it->t_class << setw(W_TEXT_ALIGN) << left << it->t_value << endl;
 	}
 
 	table_of_tokens.close();
 	tlc_code.close();
+
+	cout << "Pressione qualquer tecla para abrir o arquivo de saida" << endl;
+	cin.ignore();
+
+	system(out.c_str());
+
     return 0;
 }
 

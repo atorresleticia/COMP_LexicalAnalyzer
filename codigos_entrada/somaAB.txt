@@ -5,5 +5,5 @@ enter galaxy
 	
 	cpo >> _a + _b >> "\n";
 
-    	anakin returns;
+    	anakin;
 }
