@@ -89,7 +89,7 @@ void get_tokens(ifstream& tlc_code)
 			{
 				if (is_keyword(lexeme))
 				{
-					token_list.push_back({ lexeme, "p_res", line_count });
+					token_list.push_back({ lexeme, lexeme, line_count });
 				}
 				else 
 				{
@@ -124,7 +124,7 @@ void get_tokens(ifstream& tlc_code)
 			}
 			lexeme.pop_back();
 			tlc_code.unget();
-			is_young ? token_list.push_back({ lexeme, "num, young", lexeme, line_count }) : token_list.push_back({ lexeme, "num, padawan", lexeme, line_count });
+			is_young ? token_list.push_back({ lexeme, "young", lexeme, line_count }) : token_list.push_back({ lexeme, "padawan", lexeme, line_count });
 		}
 		else
 		{
@@ -148,7 +148,7 @@ void get_tokens(ifstream& tlc_code)
 				tlc_code.unget();
 				lexeme.pop_back();
 
-				token_list.push_back({ lexeme, "id", line_count });
+				token_list.push_back({ lexeme, "id", lexeme, line_count });
 
 				break;
 
@@ -278,23 +278,23 @@ void get_tokens(ifstream& tlc_code)
 
 			case '{':
 				lexeme = reader;
-				token_list.push_back({ lexeme, "delimitador", "abre_chaves", line_count });
+				token_list.push_back({ lexeme, "abre_chaves", line_count });
 				break;
 			case '}':
 				lexeme = reader;
-				token_list.push_back({ lexeme, "delimitador", "fecha_chaves", line_count });
+				token_list.push_back({ lexeme, "fecha_chaves", line_count });
 				break;
 			case '(':
 				lexeme = reader;
-				token_list.push_back({ lexeme, "delimitador", "abre_par", line_count });
+				token_list.push_back({ lexeme, "abre_par", line_count });
 				break;
 			case ')':
 				lexeme = reader;
-				token_list.push_back({ lexeme, "delimitador", "fecha_par", line_count });
+				token_list.push_back({ lexeme, "fecha_par", line_count });
 				break;
 			case ';':
 				lexeme = reader;
-				token_list.push_back({ lexeme, "delimitador", "fim_de_comando", line_count });
+				token_list.push_back({ lexeme, "fim_de_comando", line_count });
 				break;
 			case '\'':
 				lexeme = reader;
@@ -333,6 +333,7 @@ void get_tokens(ifstream& tlc_code)
 
 				if (tlc_code.eof())
 				{
+					lexeme.pop_back();
 					cout << line_init << ": string " << lexeme << endl << "incompleta, esta faltando um \" ." << endl;
 				} else {
 					token_list.push_back( {lexeme, "string", line_init } );
@@ -354,7 +355,7 @@ int main(int argc, char* argv[])
 	if (argc != 2)
 	{
 		cout << "Numero de argumentos incorreto." << endl;
-		cout << "<programa> <codigo_tlc>.txt" << endl;
+		cout << "./<programa> <codigo_tlc>.txt" << endl;
 		return 1;
 	}
 
@@ -364,7 +365,7 @@ int main(int argc, char* argv[])
 	string out = "saida_lexico/token_";
 	out += in.substr(in.find("/") + 1);
 
-	cout << "\t\t Analisador Lexico \"The Last Code\"" << endl;
+	cout << "\n\t\t\t Analisador Lexico \"The Last Code\"" << endl;
 
 	ifstream tlc_code(in);
 	ofstream table_of_tokens(out);
