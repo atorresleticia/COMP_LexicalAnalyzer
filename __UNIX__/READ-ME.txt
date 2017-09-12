@@ -7,7 +7,7 @@ Caso o make não funcione, a compilação deve ser -> g++ -std=c++11 LexicalAnalyze
 ### 2 EXECUÇÃO
 Os argumentos necessários para execução do programa são:
 
-<nome_executável> <caminho_do_arquivo>\<arquivo_entrada>.txt
+./<nome_executável> <caminho_do_arquivo>/<arquivo_entrada>.txt
 
 
 Os arquivos de saída são salvos na pasta "saida_lexico"** com o padrão token_<arquivo_entrada>.txt
